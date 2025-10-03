@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人Web导航</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-compass"></i> 导航分类</h2>
+            </div>
+            <nav class="category-nav">
+                <ul id="categoryList">
+                    <!-- 分类项目将通过JavaScript动态生成 -->
+                </ul>
+            </nav>
+            
+            <!-- 导入收藏夹功能 -->
+            <div class="import-section">
+                <h3><i class="fas fa-upload"></i> 导入收藏夹</h3>
+                <input type="file" id="bookmarkFile" accept=".html,.json" style="display: none;">
+                <button onclick="document.getElementById('bookmarkFile').click()" class="import-btn">
+                    <i class="fas fa-file-import"></i> 选择文件
+                </button>
+                <p class="import-tip">支持HTML书签文件或JSON格式</p>
+                
+                <!-- 重置数据功能 -->
+                <div class="reset-section" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                    <h4><i class="fas fa-refresh"></i> 数据管理</h4>
+                    <button onclick="resetToDefaultData()" class="reset-btn" style="background: #e74c3c; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; width: 100%; margin-bottom: 8px;">
+                        <i class="fas fa-undo"></i> 重置为默认数据
+                    </button>
+                    <button onclick="debugDataStatus()" class="debug-btn" style="background: #f39c12; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; width: 100%; margin-bottom: 8px;">
+                        <i class="fas fa-bug"></i> 检查数据状态
+                    </button>
+                    <button onclick="forceRefresh()" class="refresh-btn" style="background: #2ecc71; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; width: 100%;">
+                        <i class="fas fa-sync"></i> 强制刷新页面
+                    </button>
+                    <p style="font-size: 10px; color: #666; margin-top: 5px;">用于调试和解决缓存问题</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <header class="header">
+                <h1><i class="fas fa-star"></i> 我的Web导航</h1>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="搜索网站..." class="search-input">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- 网站卡片容器 -->
+                <div id="websiteContainer">
+                    <!-- 网站卡片将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 添加网站模态框 -->
+    <div id="addSiteModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-plus"></i> 添加新网站</h2>
+            <form id="addSiteForm">
+                <div class="form-group">
+                    <label for="siteName">网站名称:</label>
+                    <input type="text" id="siteName" required>
+                </div>
+                <div class="form-group">
+                    <label for="siteUrl">网站地址:</label>
+                    <input type="url" id="siteUrl" required>
+                </div>
+                <div class="form-group">
+                    <label for="siteDesc">功能描述:</label>
+                    <textarea id="siteDesc" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="siteCategory">网站类型:</label>
+                    <select id="siteCategory">
+                        <option value="最常用">最常用</option>
+                        <option value="AI大语言模型">AI大语言模型</option>                        
+                        <option value="AI Agent工具">AI Agent工具</option>
+                        <option value="AI API开发">AI API开发</option>
+                        <option value="AI 学习文档">AI 学习文档</option>
+                        <option value="AI图像生成">AI图像生成</option>
+                        <option value="AI视频生成">AI视频生成</option>
+                        <option value="AI语音音频">AI语音音频</option>
+                        <option value="南京安科">南京安科</option>
+                        <option value="学术研究">学术研究</option>
+                        <option value="在线工具">在线工具</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i> 保存
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 浮动添加按钮 -->
+    <button id="addSiteBtn" class="floating-add-btn">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <script src="ykdata.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
