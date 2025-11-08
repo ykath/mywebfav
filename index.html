@@ -50,9 +50,17 @@
         <main class="main-content">
             <header class="header">
                 <h1><i class="fas fa-star"></i> 我的Web导航</h1>
-                <div class="search-container">
-                    <input type="text" id="searchInput" placeholder="搜索网站..." class="search-input">
-                    <i class="fas fa-search search-icon"></i>
+                <div class="search-area">
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="搜索网站..." class="search-input">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <form id="webSearchForm" class="web-search" autocomplete="off">
+                        <input type="text" id="webSearchInput" class="web-search-input" placeholder="网络搜索...">
+                        <button type="submit" class="web-search-btn">
+                            <i class="fas fa-external-link-alt"></i>
+                        </button>
+                    </form>
                 </div>
             </header>
 
