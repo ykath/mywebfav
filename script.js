@@ -234,6 +234,22 @@ function initializeEventListeners() {
     // 导入收藏夹
     const bookmarkFile = document.getElementById('bookmarkFile');
     bookmarkFile.addEventListener('change', handleFileImport);
+
+    // 网络搜索
+    const webSearchForm = document.getElementById('webSearchForm');
+    const webSearchInput = document.getElementById('webSearchInput');
+    if (webSearchForm && webSearchInput) {
+        webSearchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const query = webSearchInput.value.trim();
+            if (!query) {
+                webSearchInput.focus();
+                return;
+            }
+            const searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(query)}`;
+            window.open(searchUrl, '_blank');
+        });
+    }
 }
 
 // 处理添加网站
