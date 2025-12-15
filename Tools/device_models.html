@@ -23,6 +23,21 @@
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
     }
+    /* 明亮主题 */
+    [data-theme="light"]{
+      --bg:#f5f7fa;
+      --panel:#ffffff;
+      --card:#ffffff;
+      --muted:#64748b;
+      --text:#1e293b;
+      --text2:#475569;
+      --border:rgba(0,0,0,.08);
+      --border2:rgba(0,0,0,.12);
+      --accent:#2563eb;
+      --accent2:#10b981;
+      --warn:#f59e0b;
+      --shadow: 0 12px 40px rgba(0,0,0,.08);
+    }
     *{box-sizing:border-box}
     body{
       margin:0;
@@ -31,6 +46,12 @@
                   radial-gradient(900px 700px at 85% 30%, rgba(126,224,184,.12), transparent 55%),
                   linear-gradient(180deg, #070c16, var(--bg));
       color:var(--text);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    [data-theme="light"] body{
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(37,99,235,.08), transparent 55%),
+                  radial-gradient(900px 700px at 85% 30%, rgba(16,185,129,.06), transparent 55%),
+                  linear-gradient(180deg, #e0e7ff, var(--bg));
     }
     a{color:var(--accent); text-decoration:none}
     .wrap{max-width:1240px; margin:0 auto; padding:26px 18px 40px}
@@ -42,6 +63,10 @@
       border-radius:var(--radius2);
       box-shadow:var(--shadow);
       backdrop-filter: blur(8px);
+      position: relative;
+    }
+    [data-theme="light"] header{
+      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.85));
     }
     .title h1{
       margin:0;
@@ -53,6 +78,37 @@
       color:var(--muted);
       font-size:12.5px;
       line-height:1.5;
+    }
+    .theme-toggle{
+      position: absolute;
+      top: 6px;
+      right: 18px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid var(--border2);
+      border-radius: 999px;
+      padding: 5px 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text2);
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .theme-toggle:hover{
+      background: rgba(255,255,255,.12);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    [data-theme="light"] .theme-toggle{
+      background: rgba(0,0,0,.05);
+    }
+    [data-theme="light"] .theme-toggle:hover{
+      background: rgba(0,0,0,.08);
+    }
+    .theme-icon{
+      font-size: 13px;
     }
     .badges{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end}
     .badge{
@@ -86,8 +142,9 @@
     }
     @media (max-width: 980px){
       .grid{grid-template-columns:1fr 1fr}
-      header{flex-direction:column; align-items:flex-start}
+      header{flex-direction:column; align-items:flex-start; padding-top: 45px}
       .badges{justify-content:flex-start}
+      .theme-toggle{top: 10px; right: 12px}
     }
     @media (max-width: 560px){
       .grid{grid-template-columns:1fr}
@@ -105,6 +162,7 @@
     }
     select{cursor:pointer}
     input::placeholder{color:rgba(201,215,245,.55)}
+    [data-theme="light"] input::placeholder{color:rgba(100,116,139,.55)}
     .btnrow{
       display:flex;
       gap:10px;
@@ -190,6 +248,9 @@
       font-size:12.5px;
       letter-spacing:.2px;
       z-index:1;
+    }
+    [data-theme="light"] thead th{
+      background: rgba(255,255,255,.96);
     }
     tbody td{
       border-bottom:1px solid rgba(255,255,255,.06);
@@ -293,6 +354,9 @@
       display:flex; align-items:center; justify-content:space-between; gap:12px;
       border-bottom:1px solid var(--border);
     }
+    [data-theme="light"] .modalbox{
+      background: rgba(255,255,255,.98);
+    }
     .modalhd .ttl{
       display:flex; flex-direction:column; gap:4px;
     }
@@ -334,6 +398,10 @@
 <body>
   <div class="wrap">
     <header>
+      <div class="theme-toggle" id="themeToggle" title="切换主题">
+        <span class="theme-icon" id="themeIcon">🌙</span>
+        <span id="themeText">暗黑</span>
+      </div>
       <div class="title">
         <h1>影像设备型号库（可查询）</h1>
         <p>
@@ -799,7 +867,37 @@ function reset(){
   render();
 }
 
+/* =========================
+   Theme Toggle
+   ========================= */
+function initTheme(){
+  const savedTheme = localStorage.getItem("device-models-theme") || "dark";
+  document.documentElement.setAttribute("data-theme", savedTheme);
+  updateThemeUI(savedTheme);
+}
+
+function toggleTheme(){
+  const current = document.documentElement.getAttribute("data-theme") || "dark";
+  const newTheme = current === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", newTheme);
+  localStorage.setItem("device-models-theme", newTheme);
+  updateThemeUI(newTheme);
+}
+
+function updateThemeUI(theme){
+  const icon = $("themeIcon");
+  const text = $("themeText");
+  if(theme === "light"){
+    icon.textContent = "☀️";
+    text.textContent = "明亮";
+  } else {
+    icon.textContent = "🌙";
+    text.textContent = "暗黑";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", ()=>{
+  initTheme();
   buildOptions();
   reset();
 
@@ -812,6 +910,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   $("reset").addEventListener("click", reset);
   $("copy").addEventListener("click", copyTSV);
+  $("themeToggle").addEventListener("click", toggleTheme);
 
   $("m_close").addEventListener("click", closeModal);
   $("modal").addEventListener("click", (e)=>{
