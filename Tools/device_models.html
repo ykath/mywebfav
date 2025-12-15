@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>影像设备型号库（可查询）</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#0f1a2d;
+      --card:#0f1a2d;
+      --muted:#8aa3c7;
+      --text:#e8f0ff;
+      --text2:#c9d7f5;
+      --border:rgba(255,255,255,.08);
+      --border2:rgba(255,255,255,.12);
+      --accent:#6aa8ff;
+      --accent2:#7ee0b8;
+      --warn:#ffcc66;
+      --shadow: 0 12px 40px rgba(0,0,0,.35);
+      --radius: 14px;
+      --radius2: 18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(106,168,255,.16), transparent 55%),
+                  radial-gradient(900px 700px at 85% 30%, rgba(126,224,184,.12), transparent 55%),
+                  linear-gradient(180deg, #070c16, var(--bg));
+      color:var(--text);
+    }
+    a{color:var(--accent); text-decoration:none}
+    .wrap{max-width:1240px; margin:0 auto; padding:26px 18px 40px}
+    header{
+      display:flex; gap:16px; align-items:flex-end; justify-content:space-between;
+      padding:18px 18px 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius:var(--radius2);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .title h1{
+      margin:0;
+      font-size:20px;
+      letter-spacing:.4px;
+    }
+    .title p{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:12.5px;
+      line-height:1.5;
+    }
+    .badges{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end}
+    .badge{
+      font-size:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid var(--border2);
+      background: rgba(255,255,255,.04);
+      color:var(--text2);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      white-space:nowrap;
+    }
+    .dot{width:8px; height:8px; border-radius:50%}
+    .dot.a{background:var(--accent)}
+    .dot.b{background:var(--accent2)}
+    .dot.c{background:var(--warn)}
+    .toolbar{
+      margin-top:14px;
+      padding:14px 14px;
+      border:1px solid var(--border);
+      border-radius:var(--radius2);
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 10px 26px rgba(0,0,0,.28);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr 1fr}
+      header{flex-direction:column; align-items:flex-start}
+      .badges{justify-content:flex-start}
+    }
+    @media (max-width: 560px){
+      .grid{grid-template-columns:1fr}
+    }
+    .field{display:flex; flex-direction:column; gap:6px}
+    .label{font-size:12px; color:var(--muted)}
+    input, select, button{
+      border:1px solid var(--border2);
+      background: rgba(10,16,28,.55);
+      color:var(--text);
+      border-radius:12px;
+      padding:10px 10px;
+      outline:none;
+      font-size:13px;
+    }
+    select{cursor:pointer}
+    input::placeholder{color:rgba(201,215,245,.55)}
+    .btnrow{
+      display:flex;
+      gap:10px;
+      align-items:flex-end;
+      justify-content:flex-end;
+    }
+    button{
+      cursor:pointer;
+      padding:10px 12px;
+      font-weight:600;
+      letter-spacing:.2px;
+      transition: transform .06s ease, background .2s ease, border-color .2s ease;
+      background: rgba(106,168,255,.12);
+      border-color: rgba(106,168,255,.35);
+    }
+    button:hover{background: rgba(106,168,255,.18)}
+    button:active{transform: translateY(1px)}
+    button.secondary{
+      background: rgba(255,255,255,.04);
+      border-color: var(--border2);
+    }
+    .stats{
+      margin-top:12px;
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .stat{
+      font-size:12.5px;
+      color:var(--text2);
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+    }
+    .stat strong{color:var(--text)}
+    .main{
+      margin-top:14px;
+    }
+    .panel{
+      border:1px solid var(--border);
+      border-radius:var(--radius2);
+      background: rgba(255,255,255,.03);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .panel .hd{
+      padding:14px 16px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .panel .hd h2{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.3px;
+    }
+    .panel .hd .hint{
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .tablewrap{overflow:auto}
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      min-width: 860px;
+      font-size:13px;
+    }
+    thead th{
+      position:sticky;
+      top:0;
+      background: rgba(15,26,45,.96);
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid var(--border);
+      color:var(--text2);
+      text-align:left;
+      padding:10px 12px;
+      font-weight:600;
+      font-size:12.5px;
+      letter-spacing:.2px;
+      z-index:1;
+    }
+    tbody td{
+      border-bottom:1px solid rgba(255,255,255,.06);
+      padding:10px 12px;
+      vertical-align:top;
+      color:var(--text);
+    }
+    tbody tr:hover td{
+      background: rgba(106,168,255,.06);
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:12px;
+      color:var(--text2);
+      border:1px solid var(--border2);
+      background: rgba(255,255,255,.04);
+      white-space:nowrap;
+    }
+    .pill .mini{width:6px;height:6px;border-radius:50%;}
+    .pill.ct .mini{background:var(--accent)}
+    .pill.mr .mini{background:var(--accent2)}
+    .pill.pet .mini{background:var(--warn)}
+    .model{
+      font-weight:700;
+      color:var(--text);
+      cursor:pointer;
+      text-decoration: underline;
+      text-decoration-color: rgba(106,168,255,.35);
+      text-underline-offset: 3px;
+    }
+    .muted{color:var(--muted)}
+    .card{
+      border:1px solid var(--border);
+      border-radius:var(--radius2);
+      background: rgba(255,255,255,.03);
+      overflow:hidden;
+    }
+    .card .chd{
+      padding:12px 14px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .card .chd h3{
+      margin:0;
+      font-size:13px;
+      letter-spacing:.2px;
+    }
+    .card .cnt{
+      padding:12px 14px;
+      color:var(--text2);
+      font-size:12.5px;
+      line-height:1.6;
+    }
+    .kvs{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:8px;
+    }
+    .kv{
+      padding:10px 10px;
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:14px;
+      background: rgba(10,16,28,.45);
+    }
+    .kv .k{font-size:12px; color:var(--muted); margin-bottom:4px}
+    .kv .v{font-size:13px; color:var(--text); font-family:var(--mono)}
+    footer{
+      margin-top:14px;
+      color:var(--muted);
+      font-size:12px;
+      padding:0 6px;
+    }
+
+    /* Modal */
+    .modal{
+      position:fixed; inset:0;
+      display:none;
+      align-items:center; justify-content:center;
+      padding:18px;
+      background: rgba(0,0,0,.55);
+      z-index:1000;
+    }
+    .modal.show{display:flex}
+    .modalbox{
+      width:min(920px, 100%);
+      border-radius: 18px;
+      border:1px solid var(--border2);
+      background: rgba(15,26,45,.96);
+      box-shadow: 0 20px 70px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
+    .modalhd{
+      padding:14px 16px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      border-bottom:1px solid var(--border);
+    }
+    .modalhd .ttl{
+      display:flex; flex-direction:column; gap:4px;
+    }
+    .modalhd .ttl .h{
+      font-size:14px; font-weight:800; letter-spacing:.3px;
+    }
+    .modalhd .ttl .s{
+      font-size:12px; color:var(--muted);
+    }
+    .close{
+      background: rgba(255,255,255,.05);
+      border-color: rgba(255,255,255,.18);
+    }
+    .modalbd{padding:14px 16px}
+    .meta{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 720px){
+      .meta{grid-template-columns:1fr}
+      table{min-width: 720px;}
+    }
+    .meta .block{
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+      padding:12px 12px;
+      background: rgba(10,16,28,.45);
+    }
+    .block .bk{color:var(--muted); font-size:12px; margin-bottom:6px}
+    .block .bv{color:var(--text); font-size:13px; line-height:1.65}
+    .note{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>影像设备型号库（可查询）</h1>
+        <p>
+          单文件离线浏览：支持按厂商 / 模态 / 系列 / 档位筛选，并对型号、参数、特点、定位做全文检索。
+          点击型号可展开详情。
+        </p>
+      </div>
+      <div class="badges">
+        <div class="badge"><span class="dot a"></span>CT</div>
+        <div class="badge"><span class="dot c"></span>PET/CT / PET/MR</div>
+        <div class="badge"><span class="dot b"></span>MR</div>
+      </div>
+    </header>
+
+    <section class="toolbar">
+      <div class="grid">
+        <div class="field">
+          <div class="label">全文搜索（型号/系列/参数/特点/定位）</div>
+          <input id="q" placeholder="例如：uCT 960、Force、Spectral、1024、宽体、双源、3.0T..." />
+        </div>
+        <div class="field">
+          <div class="label">厂商</div>
+          <select id="vendor"></select>
+        </div>
+        <div class="field">
+          <div class="label">模态</div>
+          <select id="modality"></select>
+        </div>
+        <div class="field">
+          <div class="label">系列</div>
+          <select id="series"></select>
+        </div>
+        <div class="field">
+          <div class="label">档位/分层</div>
+          <select id="tier"></select>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat">当前命中：<strong id="hit">0</strong> 条</div>
+        <div class="btnrow">
+          <button class="secondary" id="reset">重置筛选</button>
+          <button class="secondary" id="copy">复制结果（TSV）</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="main">
+      <div class="panel">
+        <div class="hd">
+          <h2>型号列表（点击型号查看详情）</h2>
+          <div class="hint">提示：表头固定；支持横向滚动</div>
+        </div>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:120px">厂商</th>
+                <th style="width:120px">模态</th>
+                <th style="width:160px">系列</th>
+                <th style="width:190px">型号</th>
+                <th style="width:160px">核心参数</th>
+                <th>主要特点 / 备注</th>
+                <th style="width:150px">市场定位</th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      生成：离线可用 HTML 型号库。建议用 Edge / Chrome 打开。
+    </footer>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modalbox" role="dialog" aria-modal="true" aria-labelledby="m_title">
+      <div class="modalhd">
+        <div class="ttl">
+          <div class="h" id="m_title">型号详情</div>
+          <div class="s" id="m_sub">-</div>
+        </div>
+        <button class="close" id="m_close">关闭</button>
+      </div>
+      <div class="modalbd">
+        <div class="meta">
+          <div class="block">
+            <div class="bk">核心信息</div>
+            <div class="bv" id="m_core">-</div>
+          </div>
+          <div class="block">
+            <div class="bk">特点 / 备注</div>
+            <div class="bv" id="m_feat">-</div>
+          </div>
+          <div class="block">
+            <div class="bk">核心参数</div>
+            <div class="bv" id="m_param">-</div>
+          </div>
+          <div class="block">
+            <div class="bk">市场定位 / 分层</div>
+            <div class="bv" id="m_pos">-</div>
+          </div>
+        </div>
+        <div class="note">
+          提示：如果你在中标公告里遇到“型号简称/别名/系列名”不一致，可把公告文本关键字复制到顶部“全文搜索”快速定位候选型号。
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* ============================================================
+   DATA：将你提供的文本结构化为统一字段
+   字段：vendor, modality, series, tier, model, param, feature, position
+   ============================================================ */
+const DATA = [
+  // 1) 上海联影 — CT
+  {vendor:"上海联影", modality:"CT", series:"uCT", tier:"超高端 (Atlas/9系)", model:"uCT Ultima", param:"-", feature:"国产首款光子计数能谱CT", position:"超高端"},
+  {vendor:"上海联影", modality:"CT", series:"uCT Atlas", tier:"超高端 (Atlas/9系)", model:"uCT Atlas Pro", param:"320排 (640层)", feature:"AIIR Pro双擎超算成像平台", position:"超高端"},
+  {vendor:"上海联影", modality:"CT", series:"uCT Atlas", tier:"超高端 (Atlas/9系)", model:"uCT Atlas Elite", param:"320排 (640层)", feature:"ECG Free深度学习无心电扫描", position:"超高端"},
+  {vendor:"上海联影", modality:"CT", series:"uCT 9系", tier:"超高端 (Atlas/9系)", model:"uCT 960+", param:"320排 (640层)", feature:"16cm宽体探测器，0.25s/圈转速", position:"超高端"},
+  {vendor:"上海联影", modality:"CT", series:"uCT 8系", tier:"高端 (8系)", model:"uCT 820", param:"80排 (160层)", feature:"临床与科研并重", position:"高端"},
+  {vendor:"上海联影", modality:"CT", series:"uCT 7系", tier:"中高端 (7系)", model:"uCT 788", param:"80排 (160层)", feature:"0.3s/圈转速，主动感知CT", position:"中高端"},
+  {vendor:"上海联影", modality:"CT", series:"uCT 7系", tier:"中高端 (7系)", model:"uCT 780", param:"80排 (160层)", feature:"时空探测器，0.3s/圈转速", position:"中高端"},
+  {vendor:"上海联影", modality:"CT", series:"uCT 7系", tier:"中高端 (7系)", model:"uCT 760", param:"64排 (128层)", feature:"时空探测器，0.35s/圈转速", position:"中高端"},
+  {vendor:"上海联影", modality:"CT", series:"uCT 7系", tier:"中高端 (7系)", model:"uCT 710", param:"60排 (120层)", feature:"4cm探测器宽度", position:"中高端"},
+  {vendor:"上海联影", modality:"CT", series:"uCT 5xx / Orion", tier:"中低端 (5系/Orion)", model:"uCT 5xx/Orion系列", param:"40排", feature:"主流经济型，部分搭载“天眼AI”", position:"中低端"},
+  {vendor:"上海联影", modality:"CT", series:"uCT", tier:"早期/其他", model:"uCT 510", param:"16排", feature:"早期型号 (2013年)", position:"早期/其他"},
+
+  // 1) 上海联影 — PET/CT
+  {vendor:"上海联影", modality:"PET/CT", series:"uEXPLORER", tier:"-", model:"uEXPLORER", param:"PET: 672环光导探测器；CT: 80排CT", feature:"全球首款Total-body PET/CT，4D全景动态扫描", position:"旗舰/科研+高端临床"},
+  {vendor:"上海联影", modality:"PET/CT", series:"uMI", tier:"-", model:"uMI Panorama", param:"-", feature:"搭载自研高端医学影像专用芯片", position:"高端"},
+  {vendor:"上海联影", modality:"PET/CT", series:"uMI", tier:"-", model:"uMI Panvivo", param:"PET: 全新自研探测器；CT: -", feature:"新一代PET/CT", position:"新一代/高端"},
+  {vendor:"上海联影", modality:"PET/CT", series:"uMI 7系", tier:"-", model:"uMI 780", param:"PET: 84环光导探测器；CT: 80排CT", feature:"国产首款数字化TOF PET/CT", position:"高端"},
+  {vendor:"上海联影", modality:"PET/CT", series:"uMI 7系", tier:"-", model:"uMI Vista", param:"PET: 84环光导探测器；CT: 80排CT", feature:"-", position:"高端"},
+  {vendor:"上海联影", modality:"PET/CT", series:"uMI 5系", tier:"-", model:"uMI 550", param:"PET: 84环数字光导探测器；CT: 40排CT", feature:"临床实用型", position:"临床主力"},
+  {vendor:"上海联影", modality:"PET/CT", series:"车载", tier:"-", model:"车载PET/CT", param:"PET: 84环数字光导探测器；CT: 40排CT", feature:"移动解决方案", position:"移动/应急"},
+
+  // 1) 上海联影 — MR
+  {vendor:"上海联影", modality:"MR", series:"uMR Jupiter", tier:"5.0T", model:"uMR Jupiter 5T", param:"5.0T", feature:"全球首款全身成像5.0T MR，梯度场强120mT/m", position:"超高端/科研"},
+  {vendor:"上海联影", modality:"MR", series:"uMR", tier:"3.0T", model:"uMR Max", param:"3.0T", feature:"高性能梯度系统，全流程AI辅助", position:"高端/临床+科研"},
+  {vendor:"上海联影", modality:"MR", series:"uMR", tier:"3.0T", model:"uMR Omega", param:"3.0T", feature:"行业首款75cm超大孔径3.0T MR", position:"高端/大孔径"},
+  {vendor:"上海联影", modality:"MR", series:"uMR", tier:"3.0T", model:"uMR 890", param:"3.0T", feature:"高性能梯度系统 (120mT/m)，助力脑科学研究", position:"高端/科研"},
+  {vendor:"上海联影", modality:"MR", series:"uMR", tier:"3.0T", model:"uMR 790", param:"3.0T", feature:"国产首款高性能科研型3.0T MR", position:"科研型"},
+  {vendor:"上海联影", modality:"MR", series:"uMR", tier:"3.0T", model:"uMR 770", param:"3.0T", feature:"国产首款自主研发3.0T MR", position:"高端/临床"},
+  {vendor:"上海联影", modality:"MR", series:"uMR", tier:"1.5T", model:"uMR 600", param:"1.5T", feature:"行业首款碳化硅（SiC）梯度功率放大器MR", position:"高端/工程平台"},
+  {vendor:"上海联影", modality:"MR", series:"uMR 6xx/5xx", tier:"1.5T", model:"uMR 6xx/5xx系列", param:"1.5T", feature:"多款临床实用型1.5T MR产品", position:"临床主力"},
+
+  // 1) 上海联影 — PET/MR
+  {vendor:"上海联影", modality:"PET/MR", series:"uPMR", tier:"-", model:"uPMR 890", param:"-", feature:"最新型号（信息待补充）", position:"高端/前沿"},
+  {vendor:"上海联影", modality:"PET/MR", series:"uPMR", tier:"-", model:"uPMR 790", param:"TOF PET/MR", feature:"国产首款一体化“时空一体”超清TOF PET/MR", position:"高端/科研"},
+
+  // 2) GE — CT
+  {vendor:"GE医疗", modality:"CT", series:"Revolution", tier:"高端系列", model:"Revolution Apex Platform", param:"256层（64排），Gemstone能谱探测器", feature:"TrueFidelity™深度学习重建、Effortless Workflow智能工作流（系列亮点）", position:"超高端能谱CT"},
+  {vendor:"GE医疗", modality:"CT", series:"Revolution", tier:"高端系列", model:"Revolution CT", param:"256层（64排），160mm宽体探测器", feature:"单心跳冠脉成像", position:"高端宽体CT"},
+  {vendor:"GE医疗", modality:"CT", series:"Revolution", tier:"高端系列", model:"Revolution HD", param:"128层（64排），GSI能谱成像", feature:"高分辨率成像", position:"高端CT"},
+  {vendor:"GE医疗", modality:"CT", series:"Revolution Ascend", tier:"中高端系列", model:"Revolution Ascend Elite", param:"128层，40mm覆盖范围", feature:"中高端主力机型", position:"中高端"},
+  {vendor:"GE医疗", modality:"CT", series:"Revolution Ascend", tier:"中高端系列", model:"Revolution Ascend", param:"64/128层，40mm覆盖范围", feature:"中高端可扩展平台", position:"中高端"},
+  {vendor:"GE医疗", modality:"CT", series:"Revolution", tier:"中高端系列", model:"Revolution Maxima", param:"64层", feature:"高通量常规成像", position:"中高端/通量型"},
+  {vendor:"GE医疗", modality:"CT", series:"Optima", tier:"经济型系列", model:"Optima CT660", param:"64层", feature:"临床主力机型", position:"经济型/主力"},
+  {vendor:"GE医疗", modality:"CT", series:"Optima", tier:"经济型系列", model:"Optima CT540", param:"经济型CT", feature:"基础临床应用", position:"经济型"},
+  {vendor:"GE医疗", modality:"CT", series:"Revolution RT", tier:"放疗专用", model:"Revolution RT", param:"宽孔径CT", feature:"放疗模拟定位", position:"放疗定位"},
+  {vendor:"GE医疗", modality:"CT", series:"Discovery CT590 RT", tier:"放疗专用", model:"Discovery CT590 RT", param:"放疗定位CT", feature:"-", position:"放疗定位"},
+
+  // 2) GE — PET/CT
+  {vendor:"GE医疗", modality:"PET/CT", series:"Discovery MI", tier:"高端数字PET/CT", model:"Discovery MI Gen 2", param:"模块化数字探测器；轴向视野可扩展至30cm", feature:"可根据需求配置环数", position:"高端临床旗舰"},
+  {vendor:"GE医疗", modality:"PET/CT", series:"Discovery MI", tier:"高端数字PET/CT", model:"Discovery MI", param:"3/4/5环可选模块化设计", feature:"模块化可扩展", position:"高端数字PET/CT"},
+  {vendor:"GE医疗", modality:"PET/CT", series:"Discovery IQ", tier:"中端PET/CT", model:"Discovery IQ Gen 2", param:"LightBurst PET探测器", feature:"优化采集时间和剂量", position:"临床主力"},
+  {vendor:"GE医疗", modality:"PET/CT", series:"Discovery", tier:"经典型号", model:"Discovery 64", param:"64层CT，2D/3D PET成像", feature:"经典/经济型", position:"经济型PET/CT"},
+
+  // 2) GE — MR
+  {vendor:"GE医疗", modality:"MR", series:"SIGNA", tier:"3.0T", model:"SIGNA Bolt", param:"3.0T", feature:"新一代梯度系统（2025年发布）", position:"高端/面向未来"},
+  {vendor:"GE医疗", modality:"MR", series:"SIGNA", tier:"3.0T", model:"SIGNA Premier", param:"3.0T", feature:"高性能梯度系统", position:"高端科研及临床旗舰"},
+  {vendor:"GE医疗", modality:"MR", series:"SIGNA", tier:"3.0T", model:"SIGNA Hero", param:"3.0T", feature:"宽孔径设计", position:"高端/广泛患者适配"},
+  {vendor:"GE医疗", modality:"MR", series:"SIGNA", tier:"3.0T", model:"SIGNA Architect", param:"3.0T", feature:"临床科研型3.0T", position:"临床+科研"},
+  {vendor:"GE医疗", modality:"MR", series:"SIGNA", tier:"3.0T", model:"SIGNA Artist", param:"3.0T", feature:"临床型3.0T", position:"临床主力"},
+  {vendor:"GE医疗", modality:"MR", series:"SIGNA", tier:"1.5T", model:"SIGNA Voyager", param:"1.5T", feature:"高端1.5T", position:"临床主力"},
+  {vendor:"GE医疗", modality:"MR", series:"SIGNA", tier:"1.5T", model:"SIGNA Explorer", param:"1.5T", feature:"临床应用", position:"临床型"},
+  {vendor:"GE医疗", modality:"MR", series:"SIGNA", tier:"1.5T", model:"SIGNA Creator", param:"1.5T", feature:"经济型1.5T", position:"经济型"},
+
+  // 3) Siemens — CT
+  {vendor:"西门子医疗", modality:"CT", series:"SOMATOM", tier:"双源CT", model:"SOMATOM Force", param:"384层 (2x192排)，0.25s旋转，66ms时间分辨率，240kW", feature:"双源CT旗舰，心脏/能谱优势", position:"超高端科研及临床旗舰"},
+  {vendor:"西门子医疗", modality:"CT", series:"SOMATOM", tier:"双源CT", model:"SOMATOM Drive", param:"256层 (2x128排)", feature:"高端临床，尤其适用于心脏及急诊成像", position:"高端"},
+  {vendor:"西门子医疗", modality:"CT", series:"SOMATOM", tier:"双源CT", model:"SOMATOM Pro.Pulse", param:"双源CT", feature:"新一代双源CT，旨在普及双源技术", position:"中高端/普及型"},
+  {vendor:"西门子医疗", modality:"CT", series:"SOMATOM X.platform", tier:"单源CT", model:"SOMATOM X.platform", param:"64/128层", feature:"myExam Companion智能操作平台", position:"智能高端单源CT"},
+  {vendor:"西门子医疗", modality:"CT", series:"SOMATOM go.platform", tier:"单源CT", model:"SOMATOM go.Now", param:"16排/32层", feature:"经济型、平板电脑操作平台", position:"经济型"},
+  {vendor:"西门子医疗", modality:"CT", series:"SOMATOM go.platform", tier:"单源CT", model:"SOMATOM go.Up", param:"32排/64层", feature:"经济型、平板电脑操作平台", position:"经济型"},
+  {vendor:"西门子医疗", modality:"CT", series:"SOMATOM go.platform", tier:"单源CT", model:"SOMATOM go.All", param:"-", feature:"go.platform机型", position:"经济型"},
+  {vendor:"西门子医疗", modality:"CT", series:"SOMATOM go.platform", tier:"单源CT", model:"SOMATOM go.Top", param:"-", feature:"go.platform机型", position:"经济型"},
+  {vendor:"西门子医疗", modality:"CT", series:"SOMATOM", tier:"移动式CT", model:"SOMATOM On.site", param:"移动式CT", feature:"床旁、ICU、急诊专用", position:"移动/急诊"},
+
+  // 3) Siemens — PET/CT & PET/MR
+  {vendor:"西门子医疗", modality:"PET/CT", series:"Biograph", tier:"长轴段视野", model:"Biograph Vision Quadra", param:"106cm轴向视野，32环LSO探测器", feature:"Total-body PET/CT", position:"科研+临床新应用"},
+  {vendor:"西门子医疗", modality:"PET/CT", series:"Biograph", tier:"高端数字PET/CT", model:"Biograph Vision 600", param:"80环LSO探测器，214ps TOF", feature:"高分辨率、高灵敏度", position:"高端临床旗舰"},
+  {vendor:"西门子医疗", modality:"PET/CT", series:"Biograph", tier:"高端数字PET/CT", model:"Biograph Vision", param:"UDR探测器技术", feature:"高端数字PET/CT", position:"高端"},
+  {vendor:"西门子医疗", modality:"PET/CT", series:"Biograph", tier:"中端PET/CT", model:"Biograph Trinion", param:"X-Class探测器技术", feature:"临床主力机型", position:"临床主力"},
+  {vendor:"西门子医疗", modality:"PET/CT", series:"Biograph", tier:"经典型号", model:"Biograph TruePoint", param:"39环（可选52环TrueV）", feature:"经典PET/CT型号", position:"经典/主力"},
+  {vendor:"西门子医疗", modality:"PET/CT", series:"Biograph", tier:"经济型PET/CT", model:"Biograph 16", param:"24环，144个探测器块", feature:"经济型PET/CT", position:"经济型"},
+  {vendor:"西门子医疗", modality:"PET/MR", series:"Biograph", tier:"PET/MR", model:"Biograph mMR", param:"一体化PET/MR", feature:"PET与MR同步采集，用于神经、肿瘤等研究", position:"科研/高端"},
+
+  // 3) Siemens — MR
+  {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM", tier:"7.0T", model:"MAGNETOM Terra", param:"7.0T", feature:"超高场磁共振", position:"前沿科学研究"},
+  {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM", tier:"3.0T", model:"MAGNETOM Vida", param:"3.0T，70cm孔径", feature:"BioMatrix生命矩阵技术，自适应扫描", position:"高端临床旗舰"},
+  {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM", tier:"3.0T", model:"MAGNETOM Prisma", param:"3.0T", feature:"高性能梯度系统", position:"临床科研型"},
+  {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM", tier:"3.0T", model:"MAGNETOM Skyra", param:"3.0T，70cm孔径", feature:"临床应用广泛", position:"高端/临床"},
+  {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM", tier:"3.0T", model:"MAGNETOM Verio", param:"3.0T，70cm孔径", feature:"经典3.0T型号", position:"经典"},
+  {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM", tier:"1.5T", model:"MAGNETOM Altea", param:"1.5T，70cm孔径", feature:"BioMatrix生命矩阵技术", position:"高端临床旗舰1.5T"},
+  {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM", tier:"1.5T", model:"MAGNETOM Sempra", param:"1.5T，60cm孔径", feature:"高性价比临床机型", position:"性价比"},
+  {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM", tier:"1.5T", model:"MAGNETOM Amira", param:"1.5T，60cm孔径", feature:"Eco-Power节能技术", position:"绿色经济型"},
+  {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM", tier:"1.5T", model:"MAGNETOM Aera", param:"1.5T，70cm孔径", feature:"临床应用广泛", position:"高端/临床"},
+  {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM", tier:"低场", model:"MAGNETOM Free.Max", param:"0.55T，80cm超大孔径", feature:"低液氦消耗", position:"颠覆性低场/基层+特殊场景"},
+
+  // 4) 东软 — CT
+  {vendor:"东软医疗", modality:"CT", series:"NeuViz", tier:"前沿技术", model:"NeuViz 1024", param:"1024层，46.5lp/cm空间分辨率", feature:"全球首创超高端CT（2025年获批）", position:"超高端"},
+  {vendor:"东软医疗", modality:"CT", series:"NeuViz", tier:"前沿技术", model:"NeuViz P10", param:"光子计数探测器", feature:"下一代能谱成像技术", position:"前沿/能谱"},
+  {vendor:"东软医疗", modality:"CT", series:"NeuViz Epoch", tier:"宽体CT", model:"NeuViz Epoch 系列", param:"16cm宽体探测器", feature:"单圈心脏、全器官灌注成像", position:"高端宽体"},
+  {vendor:"东软医疗", modality:"CT", series:"NeuViz", tier:"高端能谱", model:"NeuViz Prime", param:"极速能谱CT", feature:"高端临床应用", position:"高端能谱"},
+  {vendor:"东软医疗", modality:"CT", series:"NeuViz", tier:"高端系列", model:"NeuViz 128", param:"128层", feature:"高端临床主力机型", position:"高端"},
+  {vendor:"东软医疗", modality:"CT", series:"NeuViz Glory", tier:"高端系列", model:"NeuViz Glory 系列", param:"高端CT", feature:"-", position:"高端"},
+  {vendor:"东软医疗", modality:"CT", series:"NeuViz 64 / ACE 64", tier:"中端系列", model:"NeuViz 64 In / ACE 64", param:"64层", feature:"临床主力机型", position:"中端/主力"},
+  {vendor:"东软医疗", modality:"CT", series:"NeuViz Spire", tier:"中端系列", model:"NeuViz Spire 系列", param:"显微能谱技术", feature:"中端能谱CT", position:"中端能谱"},
+  {vendor:"东软医疗", modality:"CT", series:"NeuViz ACE", tier:"经济型", model:"NeuViz ACE 32", param:"32层", feature:"基础临床应用", position:"经济型"},
+  {vendor:"东软医疗", modality:"CT", series:"NeuViz 16", tier:"经济型", model:"NeuViz 16 系列", param:"16层（部分型号为32排探测器）", feature:"入门级、基层医疗", position:"入门/基层"},
+  {vendor:"东软医疗", modality:"CT", series:"Mobile CT", tier:"移动CT", model:"Mobile CT Unit / 雷神方舱CT", param:"车载/方舱形式", feature:"应急、移动医疗", position:"移动/应急"},
+
+  // 4) 东软 — PET/CT
+  {vendor:"东软医疗", modality:"PET/CT", series:"NeuEra", tier:"全数字PET/CT", model:"NeuEra 系列", param:"全数字探测系统；64通道ASIC；1024x1024矩阵", feature:"高端临床旗舰（2024年获批NMPA）", position:"高端旗舰"},
+  {vendor:"东软医疗", modality:"PET/CT", series:"NeuSight", tier:"临床型PET/CT", model:"NeuSight PET/CT", param:"-", feature:"临床主力机型", position:"临床主力"},
+  {vendor:"东软医疗", modality:"PET/CT", series:"NeuWin", tier:"临床型PET/CT", model:"NeuWin PET/CT", param:"-", feature:"经济型PET/CT", position:"经济型"},
+  {vendor:"东软医疗", modality:"PET/CT", series:"NeuWise", tier:"临床型PET/CT", model:"NeuWise PET/CT", param:"-", feature:"经济型PET/CT", position:"经济型"},
+  {vendor:"东软医疗", modality:"PET/CT", series:"NeuSR", tier:"科研型", model:"NeuSR 系列", param:"小动物PET/SPECT/CT", feature:"临床前动物实验研究", position:"科研/动物实验"},
+
+  // 4) 东软 — MR
+  {vendor:"东软医疗", modality:"MR", series:"NeuMR", tier:"3.0T", model:"NeuMR Universal", param:"3.0T（双能）", feature:"双能3.0T磁共振（2023年发布）", position:"创新平台"},
+  {vendor:"东软医疗", modality:"MR", series:"NeuMR", tier:"3.0T", model:"NeuMR Rena", param:"3.0T", feature:"光纤谱仪，全数字梯度链", position:"高端临床科研型"},
+  {vendor:"东软医疗", modality:"MR", series:"NeuMR", tier:"1.5T", model:"NeuMR Aries", param:"1.5T", feature:"盛誉磁共振", position:"临床主力"},
+  {vendor:"东软医疗", modality:"MR", series:"NeuMR", tier:"1.5T", model:"NeuMR 1.5T", param:"1.5T", feature:"盛世磁共振", position:"经济型"},
+  {vendor:"东软医疗", modality:"MR", series:"移动MR", tier:"移动MR", model:"移动式头部MR", param:"0.2T，无屏蔽，主机重量850kg，占地<2㎡", feature:"专科、应急、ICU场景（2025年获批）", position:"移动/应急"},
+
+  // 5) Philips — CT
+  {vendor:"飞利浦医疗", modality:"CT", series:"Spectral CT", tier:"能谱CT", model:"Spectral CT 7500", param:"双层探测器能谱CT", feature:"一次扫描即可获得能谱信息", position:"高端临床旗舰"},
+  {vendor:"飞利浦医疗", modality:"CT", series:"IQon", tier:"能谱CT", model:"IQon", param:"探测器基能谱技术", feature:"光谱CT", position:"高端能谱CT"},
+  {vendor:"飞利浦医疗", modality:"CT", series:"CT 5300", tier:"智能CT", model:"CT 5300", param:"-", feature:"AI智能工作流；Precise Image/Position/Dose", position:"高性能临床主力"},
+  {vendor:"飞利浦医疗", modality:"CT", series:"CT 5100 Incisive", tier:"智能CT", model:"CT 5100 Incisive", param:"-", feature:"AI深度嵌入；Tube for Life球管终身保用", position:"中高端主力/经济效益"},
+  {vendor:"飞利浦医疗", modality:"CT", series:"Incisive CT", tier:"智能CT", model:"Incisive CT", param:"-", feature:"移动成像/筛查；灵活部署", position:"多场景部署"},
+  {vendor:"飞利浦医疗", modality:"CT", series:"Big Bore RT", tier:"放疗专用", model:"Big Bore RT", param:"宽孔径设计", feature:"放疗模拟定位", position:"放疗定位"},
+  {vendor:"飞利浦医疗", modality:"CT", series:"Spectral CT 7500 RT", tier:"放疗专用", model:"Spectral CT 7500 RT", param:"能谱放疗定位CT", feature:"将能谱成像引入放疗，提高靶区勾画精度", position:"放疗定位/能谱"},
+
+  // 5) Philips — PET/CT
+  {vendor:"飞利浦医疗", modality:"PET/CT", series:"Vereos", tier:"全数字PET/CT", model:"Vereos Digital PET/CT", param:"DPC数字光子计数；310ps TOF；配套64或128层CT", feature:"23,040个数字探测器，实现更高分辨率与更精准定量", position:"高端临床旗舰"},
+
+  // 5) Philips — MR
+  {vendor:"飞利浦医疗", modality:"MR", series:"Ingenia", tier:"3.0T", model:"Ingenia Elition 3.0T", param:"3.0T", feature:"高性能梯度；Compressed SENSE加速", position:"高端临床科研旗舰"},
+  {vendor:"飞利浦医疗", modality:"MR", series:"Ingenia Ambition", tier:"3.0T", model:"Ingenia Ambition 3.0T", param:"3.0T", feature:"BlueSeal全密封低液氦磁体（仅7升液氦）", position:"环保/经济型3.0T"},
+  {vendor:"飞利浦医疗", modality:"MR", series:"Ingenia", tier:"3.0T", model:"Ingenia 3.0T", param:"3.0T", feature:"dStream全数字宽带射频系统", position:"临床主力3.0T"},
+  {vendor:"飞利浦医疗", modality:"MR", series:"Ingenia CX", tier:"3.0T", model:"Ingenia CX 3.0T", param:"3.0T", feature:"临床型3.0T", position:"临床型"},
+  {vendor:"飞利浦医疗", modality:"MR", series:"Ingenia Ambition", tier:"1.5T", model:"Ingenia Ambition 1.5T", param:"1.5T", feature:"BlueSeal全密封低液氦磁体", position:"低运营成本1.5T"},
+  {vendor:"飞利浦医疗", modality:"MR", series:"Ingenia Prodiva", tier:"1.5T", model:"Ingenia Prodiva 1.5T", param:"1.5T", feature:"dStream数字射频；操作简便", position:"高效经济型"},
+  {vendor:"飞利浦医疗", modality:"MR", series:"Ingenia", tier:"1.5T", model:"Ingenia 1.5T", param:"1.5T", feature:"dStream数字射频系统", position:"临床主力1.5T"},
+  {vendor:"飞利浦医疗", modality:"MR", series:"Ingenia MR-RT", tier:"放疗专用", model:"Ingenia MR-RT", param:"宽孔径设计", feature:"放疗定位专用平台", position:"MR引导放疗模拟定位"}
+];
+
+/* =========================
+   Helper / UI
+   ========================= */
+const $ = (id)=>document.getElementById(id);
+
+const state = {
+  q:"",
+  vendor:"ALL",
+  modality:"ALL",
+  series:"ALL",
+  tier:"ALL"
+};
+
+function uniq(arr){
+  return Array.from(new Set(arr)).sort((a,b)=>a.localeCompare(b,'zh-CN'));
+}
+function norm(s){
+  return (s ?? "").toString().toLowerCase();
+}
+function buildOptions(){
+  const vendors = ["ALL", ...uniq(DATA.map(d=>d.vendor))];
+  const modalities = ["ALL", ...uniq(DATA.map(d=>d.modality))];
+  const series = ["ALL", ...uniq(DATA.map(d=>d.series))];
+  const tiers = ["ALL", ...uniq(DATA.map(d=>d.tier))];
+
+  fillSelect("vendor", vendors, "全部厂商");
+  fillSelect("modality", modalities, "全部模态");
+  fillSelect("series", series, "全部系列");
+  fillSelect("tier", tiers, "全部档位");
+}
+function fillSelect(id, items, allLabel){
+  const sel = $(id);
+  sel.innerHTML = "";
+  for(const it of items){
+    const opt = document.createElement("option");
+    opt.value = it;
+    opt.textContent = (it==="ALL") ? allLabel : it;
+    sel.appendChild(opt);
+  }
+}
+function modalityPill(mod){
+  const m = mod.toLowerCase();
+  let cls="ct";
+  if(m.includes("mr") && !m.includes("pet")) cls="mr";
+  if(m.includes("pet")) cls="pet";
+  return `<span class="pill ${cls}"><span class="mini"></span>${escapeHtml(mod)}</span>`;
+}
+function escapeHtml(s){
+  return (s??"").toString()
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+function matches(d){
+  if(state.vendor!=="ALL" && d.vendor!==state.vendor) return false;
+  if(state.modality!=="ALL" && d.modality!==state.modality) return false;
+  if(state.series!=="ALL" && d.series!==state.series) return false;
+  if(state.tier!=="ALL" && d.tier!==state.tier) return false;
+
+  if(state.q.trim()){
+    const hay = [
+      d.vendor, d.modality, d.series, d.tier,
+      d.model, d.param, d.feature, d.position
+    ].map(norm).join(" | ");
+    const qs = norm(state.q).split(/\s+/).filter(Boolean);
+    for(const token of qs){
+      if(!hay.includes(token)) return false;
+    }
+  }
+  return true;
+}
+function render(){
+  const filtered = DATA.filter(matches);
+  $("hit").textContent = filtered.length.toString();
+
+  const tbody = $("rows");
+  tbody.innerHTML = "";
+  for(const d of filtered){
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${escapeHtml(d.vendor)}</td>
+      <td>${modalityPill(d.modality)}</td>
+      <td class="muted">${escapeHtml(d.series)}</td>
+      <td><span class="model" data-key="${escapeHtml(makeKey(d))}">${escapeHtml(d.model)}</span></td>
+      <td class="muted">${escapeHtml(d.param || "-")}</td>
+      <td>${escapeHtml(d.feature || "-")}</td>
+      <td class="muted">${escapeHtml(d.position || d.tier || "-")}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+
+  // bind model click
+  tbody.querySelectorAll(".model").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      const key = el.getAttribute("data-key");
+      const item = DATA.find(x => makeKey(x) === key);
+      if(item) openModal(item);
+    });
+  });
+}
+function makeKey(d){
+  return [d.vendor,d.modality,d.series,d.tier,d.model].join("||");
+}
+function openModal(d){
+  $("m_title").textContent = d.model;
+  $("m_sub").textContent = `${d.vendor} · ${d.modality} · ${d.series}`;
+  $("m_core").innerHTML = `
+    <div><span class="muted">厂商：</span>${escapeHtml(d.vendor)}</div>
+    <div><span class="muted">模态：</span>${escapeHtml(d.modality)}</div>
+    <div><span class="muted">系列：</span>${escapeHtml(d.series)}</div>
+    <div><span class="muted">档位：</span>${escapeHtml(d.tier)}</div>
+  `;
+  $("m_feat").textContent = d.feature || "-";
+  $("m_param").textContent = d.param || "-";
+  $("m_pos").textContent = d.position || d.tier || "-";
+
+  $("modal").classList.add("show");
+  $("modal").setAttribute("aria-hidden","false");
+}
+function closeModal(){
+  $("modal").classList.remove("show");
+  $("modal").setAttribute("aria-hidden","true");
+}
+
+/* =========================
+   Copy TSV
+   ========================= */
+async function copyTSV(){
+  const filtered = DATA.filter(matches);
+  const header = ["厂商","模态","系列","档位","型号","核心参数","主要特点/备注","市场定位"];
+  const lines = [header.join("\t")];
+  for(const d of filtered){
+    lines.push([
+      d.vendor, d.modality, d.series, d.tier, d.model,
+      d.param||"", d.feature||"", d.position||""
+    ].join("\t"));
+  }
+  const tsv = lines.join("\n");
+  try{
+    await navigator.clipboard.writeText(tsv);
+    toast(`已复制 ${filtered.length} 条到剪贴板（TSV）`);
+  }catch(e){
+    // fallback
+    const ta = document.createElement("textarea");
+    ta.value = tsv;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    ta.remove();
+    toast(`已复制 ${filtered.length} 条到剪贴板（TSV，fallback）`);
+  }
+}
+
+/* =========================
+   Tiny toast
+   ========================= */
+let toastTimer = null;
+function toast(msg){
+  let el = document.getElementById("toast");
+  if(!el){
+    el = document.createElement("div");
+    el.id = "toast";
+    el.style.cssText = `
+      position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+      background:rgba(15,26,45,.96); color:var(--text);
+      border:1px solid rgba(255,255,255,.14);
+      padding:10px 12px; border-radius:999px; font-size:12.5px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.55);
+      z-index:2000; opacity:0; transition:opacity .18s ease;
+    `;
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.opacity = "1";
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{ el.style.opacity="0"; }, 1600);
+}
+
+/* =========================
+   Events
+   ========================= */
+function syncStateFromUI(){
+  state.q = $("q").value || "";
+  state.vendor = $("vendor").value;
+  state.modality = $("modality").value;
+  state.series = $("series").value;
+  state.tier = $("tier").value;
+}
+
+function reset(){
+  $("q").value = "";
+  $("vendor").value = "ALL";
+  $("modality").value = "ALL";
+  $("series").value = "ALL";
+  $("tier").value = "ALL";
+  syncStateFromUI();
+  render();
+}
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  buildOptions();
+  reset();
+
+  ["q","vendor","modality","series","tier"].forEach(id=>{
+    $(id).addEventListener(id==="q" ? "input" : "change", ()=>{
+      syncStateFromUI();
+      render();
+    });
+  });
+
+  $("reset").addEventListener("click", reset);
+  $("copy").addEventListener("click", copyTSV);
+
+  $("m_close").addEventListener("click", closeModal);
+  $("modal").addEventListener("click", (e)=>{
+    if(e.target === $("modal")) closeModal();
+  });
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape") closeModal();
+  });
+});
+</script>
+</body>
+</html>

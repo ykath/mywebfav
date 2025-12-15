@@ -959,6 +959,16 @@ const defaultWebsites = [
         icon: "fas fa-wrench"
     },
 
+    // ==================== 工具 ====================
+    {
+        id: 206,
+        name: "医疗设备型号列表查询",
+        url: "Tools/device_models.html",
+        description: "影像设备型号库，支持按厂商/模态/系列/档位筛选，可查询CT、MR、PET/CT等医疗设备型号参数",
+        category: "工具",
+        icon: "fas fa-hospital"
+    },
+
     // ==================== 南京安科 ====================
     {
         id: 181,
@@ -1132,6 +1142,7 @@ const categories = [
     { name: "AI 学习文档", icon: "fas fa-book", color: "#3498db" },
     { name: "学术研究", icon: "fas fa-graduation-cap", color: "#2ecc71" },
     { name: "在线工具", icon: "fas fa-wrench", color: "#1abc9c" },
+    { name: "工具", icon: "fas fa-toolbox", color: "#16a085" },
     { name: "南京安科", icon: "fas fa-building", color: "#2c5e50" },
     { name: "其他", icon: "fas fa-link", color: "#95a5a6" }
 ];
