@@ -535,7 +535,8 @@ const DATA = [
 
   // 1) 上海联影 — PET/CT
   {vendor:"上海联影", modality:"PET/CT", series:"uEXPLORER", tier:"-", model:"uEXPLORER", param:"PET: 672环光导探测器；CT: 80排CT", feature:"全球首款Total-body PET/CT，4D全景动态扫描", position:"旗舰/科研+高端临床"},
-  {vendor:"上海联影", modality:"PET/CT", series:"uMI", tier:"-", model:"uMI Panorama", param:"-", feature:"搭载自研高端医学影像专用芯片", position:"高端"},
+  {vendor:"上海联影", modality:"PET/CT", series:"uMI", tier:"-", model:"uMI Panorama GS", param:"PET: uExcel UDP全芯无极数字探测器，2.76mm×2.76mm晶体，190ps TOF", feature:"搭载自研PET专用芯片，空间/时间分辨率及灵敏度业界顶尖，精准诊断早期病灶（2024年发布）", position:"高端旗舰"},
+  {vendor:"上海联影", modality:"PET/CT", series:"uMI", tier:"-", model:"uMI Panorama", param:"PET: uExcel平台，190ps超高时间分辨率", feature:"首款搭载uExcel平台，自研UDP探测器和PET专用芯片，图像信噪比和清晰度大幅提升（2023年）", position:"高端"},
   {vendor:"上海联影", modality:"PET/CT", series:"uMI", tier:"-", model:"uMI Panvivo", param:"PET: 全新自研探测器；CT: -", feature:"新一代PET/CT", position:"新一代/高端"},
   {vendor:"上海联影", modality:"PET/CT", series:"uMI 7系", tier:"-", model:"uMI 780", param:"PET: 84环光导探测器；CT: 80排CT", feature:"国产首款数字化TOF PET/CT", position:"高端"},
   {vendor:"上海联影", modality:"PET/CT", series:"uMI 7系", tier:"-", model:"uMI Vista", param:"PET: 84环光导探测器；CT: 80排CT", feature:"-", position:"高端"},
@@ -557,6 +558,7 @@ const DATA = [
   {vendor:"上海联影", modality:"PET/MR", series:"uPMR", tier:"-", model:"uPMR 790", param:"TOF PET/MR", feature:"国产首款一体化“时空一体”超清TOF PET/MR", position:"高端/科研"},
 
   // 2) GE — CT
+  {vendor:"GE医疗", modality:"CT", series:"Revolution Apex", tier:"高端系列", model:"Revolution Apex", param:"256层，16cm宽覆盖Gemstone探测器，0.23s旋转，1300mA大功率管球", feature:"GE最新旗舰，一拍心脏成像0.23mm分辨率，TrueFidelity深度学习+Gemstone Spectral全身谱图，任意心率高质量冠脉", position:"超高端能谱CT/心脏+急诊+大体格患者"},
   {vendor:"GE医疗", modality:"CT", series:"Revolution", tier:"高端系列", model:"Revolution Apex Platform", param:"256层（64排），Gemstone能谱探测器", feature:"TrueFidelity™深度学习重建、Effortless Workflow智能工作流（系列亮点）", position:"超高端能谱CT"},
   {vendor:"GE医疗", modality:"CT", series:"Revolution", tier:"高端系列", model:"Revolution CT", param:"256层（64排），160mm宽体探测器", feature:"单心跳冠脉成像", position:"高端宽体CT"},
   {vendor:"GE医疗", modality:"CT", series:"Revolution", tier:"高端系列", model:"Revolution HD", param:"128层（64排），GSI能谱成像", feature:"高分辨率成像", position:"高端CT"},
@@ -585,7 +587,8 @@ const DATA = [
   {vendor:"GE医疗", modality:"MR", series:"SIGNA", tier:"1.5T", model:"SIGNA Creator", param:"1.5T", feature:"经济型1.5T", position:"经济型"},
 
   // 3) Siemens — CT
-  {vendor:"西门子医疗", modality:"CT", series:"SOMATOM", tier:"双源CT", model:"SOMATOM Force", param:"384层 (2x192排)，0.25s旋转，66ms时间分辨率，240kW", feature:"双源CT旗舰，心脏/能谱优势", position:"超高端科研及临床旗舰"},
+  {vendor:"西门子医疗", modality:"CT", series:"Naeotom", tier:"光子计数CT", model:"Naeotom Alpha", param:"CdTe直接转换探测器，0.11mm超高分辨率，双源架构66ms时间分辨率", feature:"全球首款光子计数CT，全谱成像无电子噪声，冠脉/肺结节/小血管成像显著优于传统CT", position:"超高端/开创新纪元"},
+  {vendor:"西门子医疗", modality:"CT", series:"SOMATOM", tier:"双源CT", model:"SOMATOM Force", param:"384层 (2x192排)，0.25s旋转，66ms时间分辨率，240kW", feature:"双源CT旗舰，心脏/能谱优势，成熟可靠临床验证多年，心脏CT之王", position:"超高端科研及临床旗舰"},
   {vendor:"西门子医疗", modality:"CT", series:"SOMATOM", tier:"双源CT", model:"SOMATOM Drive", param:"256层 (2x128排)", feature:"高端临床，尤其适用于心脏及急诊成像", position:"高端"},
   {vendor:"西门子医疗", modality:"CT", series:"SOMATOM", tier:"双源CT", model:"SOMATOM Pro.Pulse", param:"双源CT", feature:"新一代双源CT，旨在普及双源技术", position:"中高端/普及型"},
   {vendor:"西门子医疗", modality:"CT", series:"SOMATOM X.platform", tier:"单源CT", model:"SOMATOM X.platform", param:"64/128层", feature:"myExam Companion智能操作平台", position:"智能高端单源CT"},
@@ -606,6 +609,7 @@ const DATA = [
 
   // 3) Siemens — MR
   {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM", tier:"7.0T", model:"MAGNETOM Terra", param:"7.0T", feature:"超高场磁共振", position:"前沿科学研究"},
+  {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM Cima.X", tier:"3.0T", model:"MAGNETOM Cima.X", param:"3.0T，梯度场强200mT/m，梯度切换率200T/m/s", feature:"双子星超高梯度场全身MR，梯度性能比传统3T高4-5倍，微米级空间/时间分辨率（2025年NMPA获批国产）", position:"超高端/脑科学+肿瘤+心血管研究"},
   {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM", tier:"3.0T", model:"MAGNETOM Vida", param:"3.0T，70cm孔径", feature:"BioMatrix生命矩阵技术，自适应扫描", position:"高端临床旗舰"},
   {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM", tier:"3.0T", model:"MAGNETOM Prisma", param:"3.0T", feature:"高性能梯度系统", position:"临床科研型"},
   {vendor:"西门子医疗", modality:"MR", series:"MAGNETOM", tier:"3.0T", model:"MAGNETOM Skyra", param:"3.0T，70cm孔径", feature:"临床应用广泛", position:"高端/临床"},
@@ -644,7 +648,7 @@ const DATA = [
   {vendor:"东软医疗", modality:"MR", series:"移动MR", tier:"移动MR", model:"移动式头部MR", param:"0.2T，无屏蔽，主机重量850kg，占地<2㎡", feature:"专科、应急、ICU场景（2025年获批）", position:"移动/应急"},
 
   // 5) Philips — CT
-  {vendor:"飞利浦医疗", modality:"CT", series:"Spectral CT", tier:"能谱CT", model:"Spectral CT 7500", param:"双层探测器能谱CT", feature:"一次扫描即可获得能谱信息", position:"高端临床旗舰"},
+  {vendor:"飞利浦医疗", modality:"CT", series:"Spectral CT", tier:"能谱CT", model:"Spectral CT 7500", param:"双层探测器，8cm覆盖，0.27s旋转，0.625mm×128排，约0.28mm分辨率", feature:"全球唯一探测器双层光谱CT升级款，一次扫描始终有双能数据，无需特殊协议，简化能谱流程，肿瘤/心脑血管物质定性诊断价值高", position:"高端临床旗舰/能谱简化流程"},
   {vendor:"飞利浦医疗", modality:"CT", series:"IQon", tier:"能谱CT", model:"IQon", param:"探测器基能谱技术", feature:"光谱CT", position:"高端能谱CT"},
   {vendor:"飞利浦医疗", modality:"CT", series:"CT 5300", tier:"智能CT", model:"CT 5300", param:"-", feature:"AI智能工作流；Precise Image/Position/Dose", position:"高性能临床主力"},
   {vendor:"飞利浦医疗", modality:"CT", series:"CT 5100 Incisive", tier:"智能CT", model:"CT 5100 Incisive", param:"-", feature:"AI深度嵌入；Tube for Life球管终身保用", position:"中高端主力/经济效益"},
@@ -663,7 +667,10 @@ const DATA = [
   {vendor:"飞利浦医疗", modality:"MR", series:"Ingenia Ambition", tier:"1.5T", model:"Ingenia Ambition 1.5T", param:"1.5T", feature:"BlueSeal全密封低液氦磁体", position:"低运营成本1.5T"},
   {vendor:"飞利浦医疗", modality:"MR", series:"Ingenia Prodiva", tier:"1.5T", model:"Ingenia Prodiva 1.5T", param:"1.5T", feature:"dStream数字射频；操作简便", position:"高效经济型"},
   {vendor:"飞利浦医疗", modality:"MR", series:"Ingenia", tier:"1.5T", model:"Ingenia 1.5T", param:"1.5T", feature:"dStream数字射频系统", position:"临床主力1.5T"},
-  {vendor:"飞利浦医疗", modality:"MR", series:"Ingenia MR-RT", tier:"放疗专用", model:"Ingenia MR-RT", param:"宽孔径设计", feature:"放疗定位专用平台", position:"MR引导放疗模拟定位"}
+  {vendor:"飞利浦医疗", modality:"MR", series:"Ingenia MR-RT", tier:"放疗专用", model:"Ingenia MR-RT", param:"宽孔径设计", feature:"放疗定位专用平台", position:"MR引导放疗模拟定位"},
+
+  // 6) Canon (佳能医疗) — CT
+  {vendor:"佳能医疗", modality:"CT", series:"Aquilion", tier:"超高分辨率CT", model:"Aquilion Precision", param:"0.25mm微小探测器元件（常规CT的1/4），150μm超细分辨率，4cm单圈覆盖，0.35s旋转", feature:"临床首台UHR CT，搭载AiCE深度学习重建，细微解剖（耳蜗/小关节/肺小结节）显像业内领先，影像细节独占鳌头", position:"超高端/亚专科高精度+科研成像"}
 ];
 
 /* =========================
