@@ -1121,7 +1121,7 @@ const defaultWebsites = [
         name: "Manus",
         url: "https://manus.im/app",
         description: "智能Agent工具",
-        category: "常用",
+        category: "最常用",
         icon: "fas fa-link"
     },
     // ==================== 废弃项目 ====================
