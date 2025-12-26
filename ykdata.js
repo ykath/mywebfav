@@ -969,80 +969,6 @@ const defaultWebsites = [
         icon: "fas fa-hospital"
     },
 
-    // ==================== 南京安科 ====================
-    {
-        id: 181,
-        name: "Matis",
-        url: "https://10.10.70.174/mantis/view.php?id=4215",
-        description: "南京安科内部bug管理和项目跟踪系统，用于软件开发过程管理",
-        category: "南京安科",
-        icon: "fas fa-link"
-    },
-    {
-        id: 184,
-        name: "安科售后",
-        url: "http://www.ankeimaging.com/",
-        description: "南京安科售后服务管理平台，处理客户技术支持和维护请求",
-        category: "南京安科",
-        icon: "fas fa-link"
-    },
-    {
-        id: 185,
-        name: "scu - Dicom影像管理",
-        url: "http://10.10.71.180:30771/#/scpscuManger/scu",
-        description: "安科内部DICOM医学影像管理系统，用于医学影像的存储和传输",
-        category: "南京安科",
-        icon: "fas fa-link"
-    },
-    {
-        id: 186,
-        name: "CT文件 - CT文件管理系统",
-        url: "http://10.10.71.180:30083/#/fileManager",
-        description: "南京安科CT扫描文件管理系统，支持影像文件上传和批量下载",
-        category: "南京安科",
-        icon: "fas fa-link"
-    },
-    {
-        id: 187,
-        name: "安科生产管理系统",
-        url: "http://10.10.71.1/test/#/dashboard",
-        description: "生产过程信息收集系统，用于产品制造过程中的质量控制和数据记录",
-        category: "南京安科",
-        icon: "fas fa-link"
-    },
-    {
-        id: 188,
-        name: "首页 - 安科中台",
-        url: "http://10.10.71.1/sc/#/dashboard",
-        description: "生产过程管理系统中台，为生产主管提供统一的管理界面",
-        category: "南京安科",
-        icon: "fas fa-link"
-    },
-    {
-        id: 189,
-        name: "设备监控",
-        url: "http://device.ankeimaging.com/index.html#/login",
-        description: "外部CT设备远程监控系统，实时收集和监控设备运行状态",
-        category: "南京安科",
-        icon: "fas fa-link"
-    },
-    {
-        id: 190,
-        name: "错误码查询系统",
-        url: "http://10.10.71.181:30581/",
-        description: "多产品错误码查询系统，为售后和研发团队提供故障诊断支持",
-        category: "南京安科",
-        icon: "fas fa-link"
-    },
-    {
-        id: 205,
-        name: "安科在线文档",
-        url: "http://10.10.71.180:30300/#/",
-        description: "安科内部服务导航和文档中心，提供各系统入口和帮助文档",
-        category: "南京安科",
-        icon: "fas fa-link"
-    },
-
     // ==================== 其他 ====================
     {
         id: 130,
@@ -1143,7 +1069,6 @@ const categories = [
     { name: "学术研究", icon: "fas fa-graduation-cap", color: "#2ecc71" },
     { name: "在线工具", icon: "fas fa-wrench", color: "#1abc9c" },
     { name: "工具", icon: "fas fa-toolbox", color: "#16a085" },
-    { name: "南京安科", icon: "fas fa-building", color: "#2c5e50" },
     { name: "其他", icon: "fas fa-link", color: "#95a5a6" }
 ];
 
