@@ -1023,7 +1023,7 @@ const defaultWebsites = [
         name: "Markdown 语法速查表 | Markdown 官方教程",
         url: "https://markdown.com.cn/cheat-sheet.html#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95",
         description: "Markdown语法快速参考手册，包含基础到高级的所有语法说明",
-        category: "其他",
+        category: "工具",
         icon: "fas fa-link"
     },
     {
@@ -1031,10 +1031,25 @@ const defaultWebsites = [
         name: "微信 Markdown 编辑器 | Doocs 开源社区",
         url: "https://md.openwrite.cn/",
         description: "将Markdown格式转换为微信公众号文章排版的在线工具",
-        category: "其他",
+        category: "工具",
         icon: "fas fa-link"
     },
-
+    {
+        id: 176,
+        name: "自己开发的微信 Markdown 编辑器",
+        url: "https://wechatmd-ajf9knx5.manus.space/",
+        description: "将Markdown格式转换为微信公众号文章排版的在线工具",
+        category: "工具",
+        icon: "fas fa-link"
+    },
+    {
+        id: 177,
+        name: "Manus",
+        url: "https://manus.im/app",
+        description: "智能Agent工具",
+        category: "最常用",
+        icon: "fas fa-link"
+    },
     // ==================== 废弃项目 ====================
     {
         id: 7,
